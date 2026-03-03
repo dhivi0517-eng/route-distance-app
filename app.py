@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 import requests
 import pandas as pd
+import os
 
 app = Flask(__name__)
 
-GOOGLE_API_KEY = "AIzaSyAU4GDi2E28ODcOuiFXfKo7Du-rdOvi0VA"
+GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY_HERE"
 
 # Load Excel once
 df = pd.read_excel("locations (2).xlsx", engine="openpyxl")
@@ -72,8 +73,6 @@ def calculate():
         "duration_hr": round(total_duration / 3600, 2),
         "coordinates": coordinates
     })
-
-import os
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
