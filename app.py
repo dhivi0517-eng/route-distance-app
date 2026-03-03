@@ -9,6 +9,9 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 # Load Excel once
 df = pd.read_excel("locations (2).xlsx", engine="openpyxl")
+@app.route("/")
+def home():
+    return render_template("index.html", google_api_key=GOOGLE_API_KEY)
 
 @app.route("/")
 def home():
@@ -77,4 +80,5 @@ def calculate():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
 
