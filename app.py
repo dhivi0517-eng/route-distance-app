@@ -9,13 +9,10 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 # Load Excel once
 df = pd.read_excel("locations (2).xlsx", engine="openpyxl")
-@app.route("/")
-def home():
-    return render_template("index.html", google_api_key=GOOGLE_API_KEY)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html", google_api_key=GOOGLE_API_KEY)
 
 @app.route("/calculate", methods=["POST"])
 def calculate():
@@ -23,7 +20,7 @@ def calculate():
     data = request.json
     dc_codes = data.get("locations")
 
-    if len(dc_codes) < 2:
+    if not dc_codes or len(dc_codes) < 2:
         return jsonify({"error": "Minimum 2 DC codes required"}), 400
 
     coordinates = []
@@ -80,5 +77,3 @@ def calculate():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-
-
