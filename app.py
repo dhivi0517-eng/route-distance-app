@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY_HERE"
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 # Load Excel once
 df = pd.read_excel("locations (2).xlsx", engine="openpyxl")
@@ -77,3 +77,4 @@ def calculate():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
