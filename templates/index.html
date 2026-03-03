@@ -18,8 +18,10 @@
 <h3 id="result"></h3>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<!-- Only this line changed -->
 <script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4GDi2E28ODcOuiFXfKo7Du-rdOvi0VA&callback=initMap">
+src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&callback=initMap">
 </script>
 
 </body>
