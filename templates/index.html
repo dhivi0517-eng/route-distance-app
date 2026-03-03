@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DC Route Planner</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<h2>DC Code Based Route Planner</h2>
+
+<div class="controls">
+  <div id="inputs"></div>
+  <button onclick="addLocation()">Add DC Code</button>
+  <button onclick="calculateRoute()">Calculate Route</button>
+</div>
+
+<div id="map"></div>
+<h3 id="result"></h3>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU4GDi2E28ODcOuiFXfKo7Du-rdOvi0VA&callback=initMap">
+</script>
+
+</body>
+</html>
