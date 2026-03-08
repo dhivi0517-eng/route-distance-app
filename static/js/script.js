@@ -17,44 +17,44 @@ function initMap() {
   addLocation();
 }
 
-let inputCount = 0;
-
 function addLocation() {
 
-    inputCount++;
+  locationCount++;
 
-    const container = document.getElementById("inputs");
+  const container = document.getElementById("inputs");
 
-    const input = document.createElement("input");
-    input.type = "text";
-    input.placeholder = "Enter DC Code";
-    input.className = "dc-input";
+  const input = document.createElement("input");
+  input.type = "text";
+  input.placeholder = "Enter DC Code";
+  input.className = "dc-input";
 
-    // ENTER press panna new input create
-    input.addEventListener("keypress", function(e) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            addLocation();
+  // important
+  input.id = "dc" + locationCount;
 
-            const allInputs = document.querySelectorAll(".dc-input");
-            allInputs[allInputs.length - 1].focus();
-        }
-    });
+  // press ENTER → new input
+  input.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      addLocation();
 
-    container.appendChild(input);
+      const allInputs = document.querySelectorAll(".dc-input");
+      allInputs[allInputs.length - 1].focus();
+    }
+  });
+
+  container.appendChild(input);
 }
 
-// First input automatically create
-window.onload = function () {
-    addLocation();
-};
 function calculateRoute() {
+
   const locations = [];
 
   for (let i = 1; i <= locationCount; i++) {
-    const code = document.getElementById(`dc${i}`).value.trim();
-    if (code !== "") {
-      locations.push(code);
+
+    const input = document.getElementById(`dc${i}`);
+
+    if (input && input.value.trim() !== "") {
+      locations.push(input.value.trim());
     }
   }
 
@@ -68,7 +68,9 @@ function calculateRoute() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ locations: locations })
   })
+
   .then(res => res.json())
+
   .then(data => {
 
     if (data.error) {
@@ -79,20 +81,26 @@ function calculateRoute() {
     document.getElementById("result").innerHTML =
       `Total Distance: ${data.distance_km} km | Total Time: ${data.duration_hr} hrs`;
 
-    const waypoints = data.coordinates.slice(1, data.coordinates.length - 1).map(loc => ({
-      location: loc,
-      stopover: true
-    }));
+    const waypoints = data.coordinates
+      .slice(1, data.coordinates.length - 1)
+      .map(loc => ({
+        location: loc,
+        stopover: true
+      }));
 
     directionsService.route({
       origin: data.coordinates[0],
       destination: data.coordinates[data.coordinates.length - 1],
       waypoints: waypoints,
       travelMode: 'DRIVING'
-    }, function(response, status) {
+    },
+
+    function(response, status) {
+
       if (status === 'OK') {
         directionsRenderer.setDirections(response);
       }
+
     });
 
   });
