@@ -17,17 +17,37 @@ function initMap() {
   addLocation();
 }
 
+let inputCount = 0;
+
 function addLocation() {
-  locationCount++;
 
-  const div = document.createElement("div");
-  div.innerHTML = `
-    <input type="text" placeholder="Enter DC Code (JP4)" id="dc${locationCount}">
-  `;
+    inputCount++;
 
-  document.getElementById("inputs").appendChild(div);
+    const container = document.getElementById("inputs");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Enter DC Code";
+    input.className = "dc-input";
+
+    // ENTER press panna new input create
+    input.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            addLocation();
+
+            const allInputs = document.querySelectorAll(".dc-input");
+            allInputs[allInputs.length - 1].focus();
+        }
+    });
+
+    container.appendChild(input);
 }
 
+// First input automatically create
+window.onload = function () {
+    addLocation();
+};
 function calculateRoute() {
   const locations = [];
 
@@ -76,4 +96,5 @@ function calculateRoute() {
     });
 
   });
+
 }
